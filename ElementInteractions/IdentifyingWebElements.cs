@@ -54,8 +54,26 @@ namespace ElementInteractions
             HighlightElementUsingJavaScript(By.XPath("//*[@id='simpleElementsLink']"));
         }
 
+        [TestMethod]
+        public void SeleniumLocationStrategiesQuiz2()
+        {
+            Driver.Navigate().GoToUrl("https://www.ultimateqa.com/simple-html-elements-for-automation/");
+            var link = Driver.FindElements(By.ClassName("et_pb_blurb_description"))[3];
+            var link2 = Driver.FindElements(By.TagName("a"))[14];
+            HighlightElementUsingJavaScript(By.Id("simpleElementsLink"));
+            HighlightElementUsingJavaScript(By.LinkText("Click this link"));
+            HighlightElementUsingJavaScript(By.Name("clickableLink"));
+            HighlightElementUsingJavaScript(By.PartialLinkText("Click this lin"));
+            HighlightElementUsingJavaScript(By.TagName("a"));
+            HighlightElementUsingJavaScript(By.XPath("//*[@id='simpleElementsLink']"));
+            HighlightElementUsingJavaScript(By.CssSelector("#simpleElementsLink"));
+        }
 
-
+        [TestMethod]
+        public void Openthebrowser()
+        {
+            Driver.Navigate().GoToUrl("https://www.ultimateqa.com/simple-html-elements-for-automation/");
+        }
         private void HighlightElementUsingJavaScript(By locationStrategy, int duration = 2)
         {
             var element = Driver.FindElement(locationStrategy);
@@ -110,6 +128,45 @@ namespace ElementInteractions
             HighlightElementUsingJavaScript(By.ClassName("et_pb_column et_pb_column_1_3  et_pb_column_10 et_pb_css_mix_blend_mode_passthrough"));
             HighlightElementUsingJavaScript(
                 By.XPath("//*[@class='et_pb_column et_pb_column_1_3  et_pb_column_10 et_pb_css_mix_blend_mode_passthrough']"));
+        }
+
+        [TestMethod]
+        public void SeleniumElementLocationExam1()  // myversion_of_test
+        {
+            /*
+            *-Using only XPath!!
+            -When debugging and testing, make sure that you scroll the element into view, Selenium
+            will not scroll for you. Not yet...
+            */
+
+            Driver.Navigate().GoToUrl("https://www.ultimateqa.com/simple-html-elements-for-automation/");
+            //click any radio button
+            Driver.FindElement(By.XPath("//*[@type='radio'][@value='male']")).Click();
+            Thread.Sleep(10000);
+            //select one checkbox
+            Driver.FindElement(By.XPath("//*[@type='checkbox'][@value='Bike']")).Click();
+            Thread.Sleep(10000);
+            ////select Audi from the dropdown
+            Driver.FindElement(By.TagName("select")).Click();
+            Thread.Sleep(10000);
+            Driver.FindElement(By.XPath("//*[@value='Audi']")).Click();
+            Thread.Sleep(10000);
+            //open tab2 and assert that it is opened.Hint , use .Text property when you find the element 
+            Driver.FindElement(By.XPath("//*[@class='et_pb_tab_1 et_pb_tab_active']")).Click();
+            Thread.Sleep(10000);
+            Assert.AreEqual("Tab 2 content", Driver.FindElement(By.XPath("//*[@class='et_pb_tab_content']")).Text);
+            Thread.Sleep(10000);
+            //in the HTML table with id,highlight one of the salary cells
+            HighlightElementUsingJavaScript(By.XPath("//td[contains(text(),'$150000+')]"));
+            Thread.Sleep(10000);
+            //Highlight the center section called "Highlight me", but you can only highlight the highest 
+            //level div for that element .the top parent div.
+            //hint this is the class
+            //et_pb_column et_pb_column_1_3 et_pb_column_10 et_pb_css_mix_blend_mode_passthrough
+            HighlightElementUsingJavaScript(By.XPath("//*[@class='et_pb_column et_pb_column_1_3 et_pb_column_10 et_pb_css_mix_blend_mode_passthrough']"));
+            Thread.Sleep(10000);
+            HighlightElementUsingJavaScript(By.ClassName("et_pb_column et_pb_column_1_3 et_pb_column_10 et_pb_css_mix_blend_mode_passthrough"));
+            Thread.Sleep(10000);
         }
     }
 }

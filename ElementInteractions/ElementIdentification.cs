@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using System.Threading;
 using OpenQA.Selenium.Chrome;
 
 namespace ElementInteractions
@@ -35,6 +36,20 @@ namespace ElementInteractions
 
         [TestMethod]
         [TestCategory("Navigation")]
+        public void SeleniumNavigation1()
+        {
+            driver.Navigate().GoToUrl("https://www.ultimateqa.com/automation");
+            Thread.Sleep(3000);
+            driver.Navigate().Back();
+            Thread.Sleep(3000);
+            driver.Navigate().Forward();
+            Thread.Sleep(3000);
+            driver.Navigate().Refresh();
+            Thread.Sleep(3000);
+        }
+
+        [TestMethod]
+        [TestCategory("Navigation")]
         public void SeleniumNavigationTest()
         {
             //Go here and assert for title - "https://www.ultimateqa.com"
@@ -45,6 +60,7 @@ namespace ElementInteractions
             Assert.AreEqual("Automation Practice - Ultimate QA", driver.Title);
             //Click link with href - /complicated-page
             driver.FindElement(By.XPath("//*[@href='/complicated-page']")).Click();
+            
             //assert page title 'Complicated Page - Ultimate QA'
             Assert.AreEqual("Complicated Page - Ultimate QA", driver.Title);
             //Go back
@@ -52,6 +68,63 @@ namespace ElementInteractions
             //assert page title equals - 'Automation Practice - Ultimate QA'
             Assert.AreEqual("Automation Practice - Ultimate QA", driver.Title);
         }
+
+        [TestMethod]
+        [TestCategory("Navigation")]
+        public void SeleniumNavigationTest1()
+        {
+            //Go here and assert for title - "https://www.ultimateqa.com"
+            driver.Navigate().GoToUrl("https://www.ultimateqa.com");
+
+            Assert.AreEqual("Home - Ultimate QA", driver.Title);
+
+            //Go here and assert for title - "https://www.ultimateqa.com/automation"
+            driver.Navigate().GoToUrl("https://ultimateqa.com/automation/");
+            Assert.AreEqual("Automation Practice - Ultimate QA", driver.Title);
+
+            //Click link with href - /complicated-page
+            driver.FindElement(By.XPath("//*[@href='https://ultimateqa.com/sample-application-lifecycle-sprint-1/']")).Click();
+            //driver.FindElement(By.XPath("//a[text()='Big page with many elements']")).Click();
+
+            //assert page title 'Complicated Page - Ultimate QA'
+            //driver.Navigate().GoToUrl("https://ultimateqa.com/complicated-page");
+            //Assert.AreEqual("Complicated Page - Ultimate QA", driver.Title);
+            Assert.AreEqual("Sample Application Lifecycle - Sprint 1 - Ultimate QA", driver.Title);
+
+
+
+            ////Go back
+            driver.Navigate().Back();
+
+            ////assert page title equals - 'Automation Practice - Ultimate QA'
+            Assert.AreEqual("Automation Practice - Ultimate QA", driver.Title);
+
+            //driver.FindElement(By.XPath("//*[@href='../complicated-page']")).Click();  //page is broken
+            //Assert.AreEqual("Complicated Page - Ultimate QA", driver.Title);
+
+        }
+
+        //        The<Comment> tag contains two text nodes and two<br> nodes as children.
+
+        //Your xpath expression was
+
+        ////*[contains(text(),'ABC')]
+        //To break this down,
+
+
+        //* is a selector that matches any element (i.e.tag) -- it returns a node-set.
+        //The[] are a conditional that operates on each individual node in that node set.It matches if any of the individual nodes it operates on match the conditions inside the brackets.
+        //text() is a selector that matches all of the text nodes that are children of the context node -- it returns a node set.
+        //contains is a function that operates on a string. If it is passed a node set, the node set is converted into a string by returning the string-value of the node in the node-set that is first in document order. Hence, it can match only the first text node in your<Comment> element -- namely BLAH BLAH BLAH. Since that doesn't match, you don't get a<Comment> in your results.
+        //You need to change this to
+
+        ////*[text()[contains(.,'ABC')]]
+        //* is a selector that matches any element (i.e.tag) -- it returns a node-set.
+        //The outer [] are a conditional that operates on each individual node in that node set -- here it operates on each element in the document.
+        //text() is a selector that matches all of the text nodes that are children of the context node -- it returns a node set.
+        //The inner [] are a conditional that operates on each node in that node set -- here each individual text node.Each individual text node is the starting point for any path in the brackets, and can also be referred to explicitly as . within the brackets.It matches if any of the individual nodes it operates on match the conditions inside the brackets.
+        //contains is a function that operates on a string. Here it is passed an individual text node (.). Since it is passed the second text node in the<Comment> tag individually, it will see the 'ABC' string and be able to match it.
+
         [TestMethod]
         [TestCategory("Manipulation")]
         public void Manipulation()

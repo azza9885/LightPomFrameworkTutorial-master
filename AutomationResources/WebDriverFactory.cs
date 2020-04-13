@@ -31,6 +31,12 @@ namespace AutomationResources
             return new ChromeDriver(directoryWithChromeDriver);
         }
 
+        //private IWebDriver GetChromeDriver()  //implement an interface, not a concrete implementation , this way u can easily switch diff browsers
+        //{
+        //    var OutPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        //    return new ChromeDriver(OutPutDirectory);
+
+        //}
         private static string CreateFilePathForNetFrameworkApps(string outPutDirectory)
         {
             //If the outputDirectory is null, a new exception will be thrown
@@ -53,66 +59,66 @@ namespace AutomationResources
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
 
-        public IWebDriver CreateSauceDriver(string browser, string version, string os, string deviceName, string deviceOrientation)
-        {
-            var capabilities =  new DesiredCapabilities();
-            capabilities.SetCapability(CapabilityType.BrowserName, browser);
-            capabilities.SetCapability(CapabilityType.Version, version);
-            capabilities.SetCapability(CapabilityType.Platform, os);
-            capabilities.SetCapability("deviceName", deviceName);
-            capabilities.SetCapability("deviceOrientation", deviceOrientation);
-            capabilities.SetCapability("username", 
-                Environment.GetEnvironmentVariable("SAUCE_USERNAME", EnvironmentVariableTarget.User));
-            capabilities.SetCapability("accessKey", 
-                Environment.GetEnvironmentVariable("SAUCE_ACCESS_KEY", EnvironmentVariableTarget.User));
-            return new RemoteWebDriver(new Uri("http://ondemand.saucelabs.com:80/wd/hub"),
-                capabilities, TimeSpan.FromSeconds(600));
-        }
+        //public IWebDriver CreateSauceDriver(string browser, string version, string os, string deviceName, string deviceOrientation)
+        //{
+        //    var capabilities =  new DesiredCapabilities();
+        //    capabilities.SetCapability(CapabilityType.BrowserName, browser);
+        //    capabilities.SetCapability(CapabilityType.Version, version);
+        //    capabilities.SetCapability(CapabilityType.Platform, os);
+        //    capabilities.SetCapability("deviceName", deviceName);
+        //    capabilities.SetCapability("deviceOrientation", deviceOrientation);
+        //    capabilities.SetCapability("username", 
+        //        Environment.GetEnvironmentVariable("SAUCE_USERNAME", EnvironmentVariableTarget.User));
+        //    capabilities.SetCapability("accessKey", 
+        //        Environment.GetEnvironmentVariable("SAUCE_ACCESS_KEY", EnvironmentVariableTarget.User));
+        //    return new RemoteWebDriver(new Uri("http://ondemand.saucelabs.com:80/wd/hub"),
+        //        capabilities, TimeSpan.FromSeconds(600));
+        //}
 
-        public IWebDriver CreateSauceDriver(SauceConfiguration sauceConfig)
-        {
-            var driver = CreateSauceDriver(sauceConfig.Browser, sauceConfig.Version, sauceConfig.OS,
-                sauceConfig.DeviceName, sauceConfig.DeviceOrientation);
-            ((IJavaScriptExecutor)driver).ExecuteScript($"sauce:job-name={sauceConfig.TestCaseName}");
-            return driver;
-        }
+        //public IWebDriver CreateSauceDriver(SauceConfiguration sauceConfig)
+        //{
+        //    var driver = CreateSauceDriver(sauceConfig.Browser, sauceConfig.Version, sauceConfig.OS,
+        //        sauceConfig.DeviceName, sauceConfig.DeviceOrientation);
+        //    ((IJavaScriptExecutor)driver).ExecuteScript($"sauce:job-name={sauceConfig.TestCaseName}");
+        //    return driver;
+        //}
 
-        public IWebDriver CreateRemoteDriver()
-        {
-            var caps = DesiredCapabilities.Chrome();
-            caps.SetCapability(CapabilityType.Platform, "Windows 10");
+        //public IWebDriver CreateRemoteDriver()
+        //{
+        //    var caps = DesiredCapabilities.Chrome();
+        //    caps.SetCapability(CapabilityType.Platform, "Windows 10");
 
-            var options = new ChromeOptions();
-            options.BinaryLocation = GetSeleniumBinaryLocation();
-            //---- >>>> Don't do this - Setting the browser name is redundant
-            //options.AddAdditionalCapability(CapabilityType.BrowserName, "chrome", true);
-            //options.AddAdditionalCapability(CapabilityType.Version, "48.0", true);
-            options.AddAdditionalCapability(CapabilityType.Platform, "Windows 10", true);
+        //    var options = new ChromeOptions();
+        //    options.BinaryLocation = GetSeleniumBinaryLocation();
+        //    //---- >>>> Don't do this - Setting the browser name is redundant
+        //    //options.AddAdditionalCapability(CapabilityType.BrowserName, "chrome", true);
+        //    //options.AddAdditionalCapability(CapabilityType.Version, "48.0", true);
+        //    options.AddAdditionalCapability(CapabilityType.Platform, "Windows 10", true);
 
-            //3. IMPORTANT - Notice the options.ToCapabilities() call!!
-            return new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), 
-                caps);
-        }
+        //    //3. IMPORTANT - Notice the options.ToCapabilities() call!!
+        //    return new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), 
+        //        caps);
+        //}
 
-        public IWebDriver CreateSauceDriver()
-        {
-            //DesiredCapabilities caps = new DesiredCapabilities();
-            //caps.SetCapability("browserName", "Chrome");
-            //caps.SetCapability("platform", "Windows 8.1");
-            //caps.SetCapability("version", "62.0");
-            //caps.SetCapability("screenResolution", "1024x768");
+        //public IWebDriver CreateSauceDriver()
+        //{
+        //    //DesiredCapabilities caps = new DesiredCapabilities();
+        //    //caps.SetCapability("browserName", "Chrome");
+        //    //caps.SetCapability("platform", "Windows 8.1");
+        //    //caps.SetCapability("version", "62.0");
+        //    //caps.SetCapability("screenResolution", "1024x768");
 
-            var capabilities =  DesiredCapabilities.Chrome();
-            //capabilities.SetCapability(CapabilityType.BrowserName, "chrome");
-            capabilities.SetCapability(CapabilityType.Version, "48.0");
-            capabilities.SetCapability(CapabilityType.Platform, "Linux");
-            capabilities.SetCapability("username", 
-                Environment.GetEnvironmentVariable("SAUCE_USERNAME", EnvironmentVariableTarget.User));
-            capabilities.SetCapability("accessKey", 
-                Environment.GetEnvironmentVariable("SAUCE_ACCESS_KEY", EnvironmentVariableTarget.User));
-            return new RemoteWebDriver(new Uri("http://ondemand.saucelabs.com:80/wd/hub"),
-                capabilities, TimeSpan.FromSeconds(600));
-        }
+        //    var capabilities =  DesiredCapabilities.Chrome();
+        //    //capabilities.SetCapability(CapabilityType.BrowserName, "chrome");
+        //    capabilities.SetCapability(CapabilityType.Version, "48.0");
+        //    capabilities.SetCapability(CapabilityType.Platform, "Linux");
+        //    capabilities.SetCapability("username", 
+        //        Environment.GetEnvironmentVariable("SAUCE_USERNAME", EnvironmentVariableTarget.User));
+        //    capabilities.SetCapability("accessKey", 
+        //        Environment.GetEnvironmentVariable("SAUCE_ACCESS_KEY", EnvironmentVariableTarget.User));
+        //    return new RemoteWebDriver(new Uri("http://ondemand.saucelabs.com:80/wd/hub"),
+        //        capabilities, TimeSpan.FromSeconds(600));
+        //}
 
         private string GetSeleniumBinaryLocation()
         {
